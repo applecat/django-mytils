@@ -3,14 +3,14 @@
 from datetime import date, datetime, timedelta
 from django.utils import timezone
 from django.conf import settings
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from django.utils.dateformat import DateFormat
 
 
 # In Django date filter format:
 # https://docs.djangoproject.com/en/2.0/ref/templates/builtins/#date
 # TODAY|YESTERDAY|RECENTLY|LONGAGO
-PUBDATE_FORMAT = getattr(settings, 'MYTILS_PUBDATE_FORMAT', _('\\t\\o\\d\\a\\y H:i|\\y\\e\\s\\t\\e\\r\\d\\a\\y H:i|j E|d.m.Y'))
+PUBDATE_FORMAT = getattr(settings, 'MYTILS_PUBDATE_FORMAT', _('\\t\\o\\d\\a\\y P|\\y\\e\\s\\t\\e\\r\\d\\a\\y P|jS E|m/d/Y'))
 PUBDATE_FORMAT_SPLITTER = getattr(settings, 'MYTILS_PUBDATE_FORMAT_SPLITTER', '|')
 PUBDATE_AGO_DAYS = getattr(settings, 'MYTILS_PUBDATE_AGO_DAYS', 6*30)
 

@@ -9,64 +9,59 @@ from django.conf import settings
 from django.utils.dateformat import format
 
 from mytils.datetime import pubdate, PUBDATE_AGO_DAYS
+from freezegun import freeze_time
 
 from django.template import Context, Template
+
+from django.utils.translation import activate
+activate('ru')
+
 
 class DatetimeTestCase(TestCase):
     """
     Test case for mytils.datetime
     """
 
+    @freeze_time("2018-02-12")
     def test_pubdate(self):
         """
         Unit-test for pubdate
-        TODO: test the russian translation too
+        TODO: automate test test the russian translation too
         """
 
-        now = datetime.now()
         today = datetime(
-            year=now.year,
-            month=now.month,
-            day=now.day,
+            year=2018,
+            month=2,
+            day=12,
             hour=21,
             minute=43,
         )
+        yesterday = today - timedelta(days=1)
 
+        # settings.LANGUAGE_CODE = 'ru'
         lang = settings.LANGUAGE_CODE
 
-        # TODO: как тестировать RECENTLY и LONG AGO сравнивая их с простоянными строками? нужно менять величину now в функции, но тогда пропадает весь смысл pubdate
-        results = {
-            'en': ['today 21:43', 'yesterday 21:43'],
-            'ru': ['сегодня 21:43', 'вчера 21:43']
+
+        dates = [today, yesterday, datetime(2018, 1, 1), datetime(2017, 4, 15)]
+
+        results_langs = {
+            'en-us': ['today 9:43 p.m.', 'yesterday 9:43 p.m.', '1st January', '04/15/2017'],
+            'ru':    ['сегодня 21:43',   'вчера 21:43',         '1 января',    '15.04.2017'],
         }
+        results = results_langs[lang]
 
-        # TODAY
-        itoday = pubdate(today)
-        self.assertEqual(itoday, results[lang][0])
+        for i, d in enumerate(dates):
+            self.assertEqual(pubdate(d), results[i])
 
-        # YESTERDAY
-        yesterday = today - timedelta(days=1)
-        iyesterday = pubdate(yesterday)
-        self.assertEqual(iyesterday, results[lang][1])
 
-        # RECENTLY
-        recently = today - timedelta(days=PUBDATE_AGO_DAYS-1)
-        irecently = pubdate(recently)
-        self.assertEqual(irecently, format(recently, 'j E'))
-
-        # LONG AGO
-        longago = today - timedelta(days=PUBDATE_AGO_DAYS+1)
-        ilongago = pubdate(longago)
-        self.assertEqual(ilongago, format(longago, 'd.m.Y'))
-
-    def render_template(self, string, context=None):
-        context = context or {}
-        context = Context(context)
-        return Template(string).render(context)
-
-    def test_pubdate_filter(self):
-        t = self.render_template('{% load mytils_datetime %}{{ mydate|pubdate }}', {'mydate': datetime.now()})
-        print(t)
-
-        t = self.render_template('{% load mytils_datetime %}{{ mydate|pubdate:"H:i|вчера H:i|j E|d.m.Y" }}', {'mydate': datetime.now()})
-        print(t)
+    # def render_template(self, string, context=None):
+    #     context = context or {}
+    #     context = Context(context)
+    #     return Template(string).render(context)
+    #
+    # def test_pubdate_filter(self):
+    #     t = self.render_template('{% load mytils_datetime %}{{ mydate|pubdate }}', {'mydate': datetime.now()})
+    #     print(t)
+    #
+    #     t = self.render_template('{% load mytils_datetime %}{{ mydate|pubdate:"H:i|вчера H:i|j E|d.m.Y" }}', {'mydate': datetime.now()})
+    #     print(t)

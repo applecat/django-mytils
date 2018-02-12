@@ -21,5 +21,5 @@ msgstr ""
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: mytils/datetime.py:28
-msgid "\\t\\o\\d\\a\\y H:i|\\y\\e\\s\\t\\e\\r\\d\\a\\y H:i|j E|d.m.Y"
+msgid "'\\t\\o\\d\\a\\y P|\\y\\e\\s\\t\\e\\r\\d\\a\\y P|jS E|m/d/Y'"
 msgstr "сегодня H:i|вчера H:i|j E|d.m.Y"

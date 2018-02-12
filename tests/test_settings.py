@@ -19,7 +19,7 @@ TEMPLATES = [
     },
 ]
 
-LANGUAGE_CODE = 'ru'
+# LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'Europe/Moscow'
 
