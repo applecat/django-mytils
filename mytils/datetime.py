@@ -4,8 +4,7 @@ from datetime import date, datetime, timedelta
 from django.utils import timezone
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
-from django.utils.dateformat import DateFormat
-
+from django.utils.dateformat import format
 
 # In Django date filter format:
 # https://docs.djangoproject.com/en/2.0/ref/templates/builtins/#date
@@ -65,14 +64,13 @@ def pubdate(d, fmt=None):
         now = datetime.now()
 
     if now.date() == d.date():
-        format = TODAY
+        fmt_ = TODAY
     elif now.date() - timedelta(days=1) == d.date():
-        format = YESTERDAY
+        fmt_ = YESTERDAY
     elif now.date() - timedelta(days=PUBDATE_AGO_DAYS) < d.date():
-        format = RECENTLY
+        fmt_ = RECENTLY
     else:
-        format = LONGAGO
+        fmt_ = LONGAGO
 
-    df = DateFormat(d)
-    return df.format(format)
+    return format(d, fmt_)
 
