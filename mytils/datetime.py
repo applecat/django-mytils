@@ -41,6 +41,7 @@ def pubdate(d, fmt=None):
     2) yesterday 16:32 - for yeaterday
     3) 10 January 16:32 - date before MYTILS_PUBDATE_AGO_DAYS days (6*30 by default)
     4) 10.01.2017 16:32 - date after MYTILS_PUBDATE_AGO_DAYS days
+    TODO: add working with datetime.date
     """
     if not type(d) is datetime:
         return ""
