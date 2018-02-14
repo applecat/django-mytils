@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-# Dynamically calculate the version based on django.VERSION.
+# Dynamically calculate the version based on mytils.VERSION.
 version = __import__('mytils').get_version()
 
 setup(
