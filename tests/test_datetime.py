@@ -11,6 +11,7 @@ from django.utils.translation import activate
 
 from freezegun import freeze_time
 
+from .utils import render_template
 from mytils.datetime import pubdate
 
 
@@ -52,14 +53,6 @@ class MytilsDatetimeTestCase(TestCase):
                 r = pubdate(d)
                 self.assertEqual(r, results[i])
 
-    def render_template(self, string, context=None):
-        """
-        Util for template rendering
-        """
-        context = context or {}
-        context = Context(context)
-        return Template(string).render(context)
-
     @freeze_time("2018-02-12")
     def test_pubdate_filter(self):
         """
@@ -69,11 +62,11 @@ class MytilsDatetimeTestCase(TestCase):
             activate(lang)
             results = self.test_results[lang]
             for i, d in enumerate(self.test_dates):
-                r = self.render_template('{% load mytils_datetime %}{{ mydate|pubdate }}', {'mydate': d})
+                r = render_template('{% load mytils_datetime %}{{ mydate|pubdate }}', {'mydate': d})
                 self.assertEqual(r, results[i])
 
         # Custom format
         test_results = ['21:43', 'вчера в 21:43', '1 января', '15.04.17']
         for i, d in enumerate(self.test_dates):
-            r = self.render_template('{% load mytils_datetime %}{{ mydate|pubdate:"H:i|вчера в H:i|j E|d.m.y" }}', {'mydate': d})
+            r = render_template('{% load mytils_datetime %}{{ mydate|pubdate:"H:i|вчера в H:i|j E|d.m.y" }}', {'mydate': d})
             self.assertEqual(r, test_results[i])
