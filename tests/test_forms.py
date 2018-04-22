@@ -3,10 +3,7 @@
 Unit-tests for mytils.forms
 """
 
-from datetime import datetime, timedelta
-
 from django.test import TestCase
-from django.template import Context, Template
 
 from .utils import render_template
 from django import forms
@@ -17,14 +14,24 @@ class TestForm(forms.Form):
 
 
 class MytilsFormsTestCase(TestCase):
-    """
-    Test case for mytils.forms
-    """
 
-    def test_pubdate_filter(self):
-        """
-        Unit-test for pubdate template filter
-        """
+    def test_add_field_class_filter(self):
         form = TestForm()
         r = render_template('{% load mytils_forms %}{{ form.name|add_field_class:"test-class" }}', {'form': form})
         self.assertIn('class="test-class"', str(r))
+
+    def test_field_type_filter(self):
+        form = TestForm()
+        r = render_template('{% load mytils_forms %}{{ form.name|field_type }}', {'form': form})
+        self.assertEqual(r, 'CharField')
+
+    def test_widget_type_filter(self):
+        form = TestForm()
+        r = render_template('{% load mytils_forms %}{{ form.name|widget_type }}', {'form': form})
+        self.assertEqual(r, 'TextInput')
+
+    def test_widget_class_filter(self):
+        form = TestForm()
+        form.fields['name'].widget.attrs['class'] = 'test-class'
+        r = render_template('{% load mytils_forms %}{{ form.name|widget_class }}', {'form': form})
+        self.assertEqual(r, 'test-class')
