@@ -1,0 +1,8 @@
+<table border="0" cellpadding="4">
+    {% for i in fields %}
+    <tr>
+        <td valign="top" width="170">{{ i.0 }}:</td>
+        <td valign="top">{{ i.1|linebreaksbr }}</td>
+    </tr>
+    {% endfor %}
+</table>

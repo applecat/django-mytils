@@ -1,6 +1,7 @@
 SECRET_KEY = 'fake-key'
 
 INSTALLED_APPS = [
+    "django.contrib.sites",
     "mytils",
     "tests",
 ]
@@ -29,3 +30,5 @@ USE_L10N = True
 
 USE_TZ = False  # TODO: Test with this True!
 # USE_TZ = True  # ValueError: localtime() cannot be applied to a naive datetime
+
+SITE_ID = 1
