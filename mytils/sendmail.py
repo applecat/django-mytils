@@ -55,6 +55,28 @@ def send_mail_template(subject, message_template, context, to,
                      request, reply_to, attachments)
 
 
+def send_mail_object_fields(subject, to, object, fields_exclude=['id'],
+                            message_template='notification/sendform_message.html',
+                            from_email=settings.DEFAULT_FROM_EMAIL,
+                            request=None, reply_to=None, attachments=[]):
+
+    """Send all object fields by email"""
+
+    # Collect object fields
+    context = {
+        'fields': [
+            (field.verbose_name.title(), getattr(object, field.name))
+            for field in object._meta.fields if getattr(object, field.name) and
+            field.name not in fields_exclude
+        ]
+    }
+
+    message = prepare_message(message_template, context, request)
+    return send_mail(subject, message, to, from_email,
+                     request, reply_to, attachments)
+
+
+# Deprecated
 class SendMailMixin(object):
     """
     Class mixin for sending emails.
