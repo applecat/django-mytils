@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 # Dynamically calculate the version based on django.VERSION.
-version = __import__('mytils').get_version()
+version = '0.0.1'
 
 setup(
     name='django-mytils',
