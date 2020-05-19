@@ -25,7 +25,7 @@ def send_mail(subject, message, to, bcc=None,
             message,
             from_email=from_email,
             to=[email],
-            bcc=None,
+            bcc=bcc,
             headers=headers
         )
         msg.content_subtype = "html"
