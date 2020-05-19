@@ -47,12 +47,12 @@ def prepare_message(message_template, context, request=None):
     return message
 
 
-def send_mail_template(subject, message_template, context, to,
+def send_mail_template(subject, message_template, context, to, bcc=None,
                        from_email=settings.DEFAULT_FROM_EMAIL,
                        request=None, reply_to=None, attachments=[]):
 
     message = prepare_message(message_template, context, request)
-    return send_mail(subject, message, to, from_email,
+    return send_mail(subject, message, to, bcc, from_email,
                      request, reply_to, attachments)
 
 
