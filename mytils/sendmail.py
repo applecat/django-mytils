@@ -4,7 +4,7 @@ from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
 
 
-def send_mail(subject, message, to,
+def send_mail(subject, message, to, bcc=None,
               from_email=settings.DEFAULT_FROM_EMAIL,
               request=None, reply_to=None, attachments=None):
 
@@ -25,6 +25,7 @@ def send_mail(subject, message, to,
             message,
             from_email=from_email,
             to=[email],
+            bcc=None,
             headers=headers
         )
         msg.content_subtype = "html"
